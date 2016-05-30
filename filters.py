@@ -500,8 +500,10 @@ def _to_row_range(rr):
 def _to_time_range(tr):
     try:
         new_tr = TimeRange()
-        setattr(new_tr, "from", tr[0])
-        setattr(new_tr, "to", tr[1])
+        if len(tr) > 0 and tr[0]:
+            setattr(new_tr, "from", tr[0])
+        if len(tr) > 1 and tr[1]:
+            setattr(new_tr, "to", tr[1])
         return new_tr
     except Exception:
         raise ValueError("Malformed TimeRange provided")
