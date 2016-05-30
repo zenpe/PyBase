@@ -28,14 +28,12 @@ def master_request(meta_key):
 
 def get_request(region, key, families, filters, time_range):
     pbFilter = _to_filter(filters)
-    timeRange = _to_time_range(time_range)
     rq = GetRequest()
     rq.get.row = key
     rq.get.column.extend(families_to_columns(families))
-    rq.get.time_range.CopyFrom(timeRange)
-
+    if time_range is not None:
+        rq.get.time_range.CopyFrom(_to_time_range(time_range))
     print rq.get.time_range
-
     rq.region.type = 1
     rq.region.value = region.region_name
     if pbFilter is not None:

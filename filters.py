@@ -498,6 +498,8 @@ def _to_row_range(rr):
 
 
 def _to_time_range(tr):
+    if tr is None:
+        return None
     try:
         new_tr = TimeRange()
         if len(tr) > 0 and tr[0]:
