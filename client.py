@@ -107,7 +107,7 @@ class MainClient:
         HERE LAY REQUESTS
     """
 
-    def get(self, table, key, families={}, filters=None):
+    def get(self, table, key, families={}, filters=None, time_range=None):
         """
         get a row or specified cell with optional filter
         :param table: hbase table
@@ -115,6 +115,8 @@ class MainClient:
         :param families: (optional) specifies columns to get,
           e.g., {"columnFamily1":["col1","col2"], "colFamily2": "col3"}
         :param filters: (optional) column filters
+        :param time_range: (optional) specifies timestamp range of columns to get,
+          e.g., [mixTimestamp, MaxTimestamp]
         :return: response with cells
         """
         try:
@@ -125,7 +127,7 @@ class MainClient:
             # Step 1. Figure out where to send it.
             dest_region = self._find_hosting_region(table, key)
             # Step 2. Build the appropriate pb message.
-            rq = request.get_request(dest_region, key, families, filters)
+            rq = request.get_request(dest_region, key, families, filters, time_range)
             # Step 3. Send the message and twiddle our thumbs.
             response = dest_region.region_client._send_request(rq)
             # Step 4. Success.
