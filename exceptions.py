@@ -196,6 +196,9 @@ class MalformedFamilies(PyBaseException):
 class MalformedValues(PyBaseException):
     pass
 
+class MalformedTimeRange(PyBaseException):
+    pass
+
 
 # It starts getting a little intense below here. Why? Glad you asked.
 # Reason is two fold -

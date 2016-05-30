@@ -1,6 +1,7 @@
 from ..pb.Client_pb2 import GetRequest, MutateRequest, ScanRequest, Column, MutationProto
-from ..filters import _to_filter
-from ..exceptions import MalformedFamilies, MalformedValues
+from ..filters import _to_filter, _to_time_range
+from ..exceptions import MalformedFamilies, MalformedValues, MalformedTimeRange
+from ..pb.HBase_pb2 import TimeRange
 
 # Table + Family used when requesting meta information from the
 # MetaRegionServer
@@ -25,11 +26,16 @@ def master_request(meta_key):
     return Request("Get", rq)
 
 
-def get_request(region, key, families, filters):
+def get_request(region, key, families, filters, time_range):
     pbFilter = _to_filter(filters)
+    timeRange = _to_time_range(time_range)
     rq = GetRequest()
     rq.get.row = key
     rq.get.column.extend(families_to_columns(families))
+    rq.get.time_range.CopyFrom(timeRange)
+
+    print rq.get.time_range
+
     rq.region.type = 1
     rq.region.value = region.region_name
     if pbFilter is not None:
@@ -164,4 +170,3 @@ def values_to_column_values(val, delete=False):
         return col_vals
     except Exception:
         raise MalformedValues()
-

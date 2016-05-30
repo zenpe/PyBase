@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(name='pybase',
       version='0.1',
       description='Native python client to hbase 1.0+',
-      url='https://github.com/CurleySamuel/PyBase',
+      url='https://github.com:zenpe/PyBase.git',
       author='Sam Curley',
       author_email='CurleySamuel@gmail.com',
       license='Apache License 2.0',

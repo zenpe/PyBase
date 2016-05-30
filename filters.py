@@ -16,7 +16,7 @@
 import traceback
 import pb.Filter_pb2 as pbFilter
 import pb.Comparator_pb2 as pbComparator
-from pb.HBase_pb2 import BytesBytesPair as pbBytesBytesPair
+from pb.HBase_pb2 import BytesBytesPair as pbBytesBytesPair, TimeRange
 
 # You're brave to venture into this file.
 
@@ -496,3 +496,12 @@ def _to_row_range(rr):
     except Exception:
         raise ValueError("Malformed RowRange provided")
 
+
+def _to_time_range(tr):
+    try:
+        new_tr = TimeRange()
+        setattr(new_tr, "from", tr[0])
+        setattr(new_tr, "to", tr[1])
+        return new_tr
+    except Exception:
+        raise ValueError("Malformed TimeRange provided")
