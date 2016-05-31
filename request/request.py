@@ -33,7 +33,6 @@ def get_request(region, key, families, filters, time_range):
     rq.get.column.extend(families_to_columns(families))
     if time_range is not None:
         rq.get.time_range.CopyFrom(_to_time_range(time_range))
-    print rq.get.time_range
     rq.region.type = 1
     rq.region.value = region.region_name
     if pbFilter is not None:
